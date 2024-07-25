@@ -1,0 +1,71 @@
+{{- range .Values.deployments }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ $.Values.namespace }}
+  name: {{ .name }}
+  labels:
+    app: {{ .labels.app }}
+    group: {{ .labels.group }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ .labels.app }}
+      group: {{ .labels.group }}
+  template:
+    metadata:
+      labels:
+        app: {{ .labels.app }}
+        group: {{ .labels.group }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .imagePullSecrets }}
+      containers:
+        - name: {{ .container.name }}
+          image: {{ .container.image }}
+          ports:
+            - name: {{ .container.ports.name }}
+              containerPort: {{ .container.ports.port }}
+          env:
+            - name: GP_INFRA
+              value: {{ .env.gpInfra }}
+            - name: GP_TYPE
+              value: {{ .env.gpType }}
+            - name: GP_NAMESPACE
+              value: {{ $.Values.namespace }}
+            - name: GP_WORLD
+              value: {{ .env.gpWorld }}
+            - name: CLUSTER
+              value: {{ .env.cluster }}
+            - name: SERVICE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MQTT_WS_PORT
+              value: {{ .env.mqttWsPort }}
+            - name: MQTT_PORT
+              value: {{ .env.mqttPort }}
+            - name: APP_PORT
+              value: {{ .env.appPort }}
+            - name: APP_INTERNAL_PORT
+              value: {{ .env.appInternalPort }}
+            - name: RULE_PORT
+              value: {{ .env.rulePort }}
+            - name: BOT_PORT
+              value: {{ .env.botPort }}
+            - name: OMNI_PORT
+              value: {{ .env.omniPort }}
+            - name: STRAPI_PORT
+              value: {{ .env.strapiPort }}
+            - name: MAIL_PORT
+              value: {{ .env.mailPort }}
+            - name: CALL_PORT
+              value: {{ .env.callPort }}
+            - name: KMS_PORT
+              value: {{ .env.kmsPort }}
+            - name: KTSMS_PORT
+              value: {{ .env.ktsmsPort }}
+            - name: SEARCH_PORT
+              value: {{ .env.searchPort }}
+{{- end }}

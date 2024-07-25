@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "gitple-k.fullname" . }}-test-connection"
+  labels:
+    {{- include "gitple-k.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "gitple-k.fullname" . }}:latest']
+  restartPolicy: Never

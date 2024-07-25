@@ -1,0 +1,22 @@
+{{- range .Values.services }}
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ $.Values.namespace }}
+  name: {{ .name }}
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: {{ .annotations.healthcheckPath }}
+spec:
+  type: {{ .type }}
+  selector:
+    app: {{ .selector.app }}
+    group: {{ .selector.group }}
+  ports:
+    - name: {{ .ports.name }}
+      port: {{ .ports.port }}
+      targetPort: {{ .ports.targetPort | default .ports.port }}
+      nodePort: {{ .ports.nodePort | default "" }}
+  {{- if .clusterIP }}
+  clusterIP: {{ .clusterIP }}
+  {{- end }}
+{{- end }}

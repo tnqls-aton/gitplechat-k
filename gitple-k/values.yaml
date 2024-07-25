@@ -1,0 +1,581 @@
+namespace: gpc-public
+roleBinding:
+  name: gitplechat-pod-reader
+serviceAccount:
+  name: default
+role:
+  name: gitplechat-pod-reader
+
+#ingresses:
+#  - name: public-alb-ingress
+#    enabled: true
+#    labels:
+#      app: gitplechate-alb-ingress-public
+#      group: gitplechat
+#    annotations:
+#      loadBalancerSize: "small"
+#      networkType: "public"
+#      listenPorts: '[{"HTTP": 80}, {"HTTPS": 443}]'
+#      sslRedirect: '443'
+#      sslMinVersion: "TLSV12"
+#      sslCertificateNo: "9681"
+#      cipherSuiteList: '["TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256", "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256", "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384"]'
+#      actions:
+#        atonGitplekRedirect: '{"type": "redirection", "redirection": {"protocol": "HTTPS", "port": "443", "statusCode": 302, "host": "www.atoncorp.com", "path": "/gitplechatK"}}'
+#        guideGitpleIoRedirect: '{"type": "redirection", "redirection": {"protocol": "HTTPS", "port": "443", "statusCode": 302, "host": "guide.gitple.io"}}'
+#        workspaceGovGitpleKrRedirect: '{"type": "redirection", "redirection": {"protocol": "HTTPS", "port": "443", "statusCode": 302, "host": "workspace-gov.gitple.kr"}}'
+#    defaultBackend:
+#      service:
+#        name: web-external
+#        port:
+#          number: 12080
+#    rules:
+#      - host: gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: aton-gitplek-redirect
+#                  port:
+#                    name: use-annotation
+#      - host: guide.gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: guide-gitple-io-redirect
+#                  port:
+#                    name: use-annotation
+#      - host: guide-gov.gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: guide-gitple-io-redirect
+#                  port:
+#                    name: use-annotation
+#      - host: workspace.gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: workspace-gov-gitple-kr-redirect
+#                  port:
+#                    name: use-annotation
+#      - host: omni-gov.gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: omni-external
+#                  port:
+#                    number: 16080
+#      - host: api-gov.gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: app-external
+#                  port:
+#                    number: 12080
+#      - host: "*.gitple.kr"
+#        http:
+#          paths:
+#            - path: /mogi
+#              pathType: Exact
+#              backend:
+#                service:
+#                  name: mogi-external
+#                  port:
+#                    number: 11080
+#            - path: /chat
+#              pathType: Exact
+#              backend:
+#                service:
+#                  name: web-external
+#                  port:
+#                    number: 12080
+#            - path: /chat/build/*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: web-external
+#                  port:
+#                    number: 12080
+#            - path: /chat/assets/*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: web-external
+#                  port:
+#                    number: 12080
+#            - path: /chat/*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: app-external
+#                  port:
+#                    number: 12080
+#            - path: /api/*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: app-external
+#                  port:
+#                    number: 12080
+#            - path: /external/*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: app-external
+#                  port:
+#                    number: 12080
+#            - path: /l/*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: app-external
+#                  port:
+#                    number: 12080
+#
+#  - name: private-alb-ingress
+#    enabled: true
+#    labels:
+#      app: gitplechate-alb-ingress-private
+#      group: gitplechat
+#    annotations:
+#      loadBalancerSize: "small"
+#      networkType: "private"
+#      listenPorts: '[{"HTTP": 80}, {"HTTPS": 443}]'
+#      sslRedirect: '443'
+#      sslMinVersion: "TLSV12"
+#      sslCertificateNo: "9681"
+#      cipherSuiteList: '["TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256", "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384", "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256", "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384", "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256", "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384"]'
+#    rules:
+#      - host: console-gov.gitple.kr
+#        http:
+#          paths:
+#            - path: /*
+#              pathType: ImplementationSpecific
+#              backend:
+#                service:
+#                  name: strapi-external
+#                  port:
+#                    number: 17080
+
+ingresses:
+  - name: public-alb-ingress
+    enabled: false  # ingress 비활성화
+  - name: private-alb-ingress
+    enabled: false  # ingress 비활성화
+
+
+deployments:
+  - name: app
+    replicas: 2
+    labels:
+      app: app
+      group: gitplechat
+    imagePullSecrets: gitplechat
+    container:
+      name: app
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/app:latest
+      ports:
+        name: http-internal
+        port: 12180
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+  - name: kms
+    replicas: 2
+    labels:
+      app: kms
+      group: gitplechat
+    imagePullSecrets: gitplechat
+    container:
+      name: kms
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/kms:latest
+      ports:
+        name: http-internal
+        port: 20080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+  - name: mogi
+    replicas: 2
+    labels:
+      app: mogi
+      group: gitplechat
+    imagePullSecrets: gitplechat
+    container:
+      name: mogi
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/mogi:latest
+      ports:
+        name: ws-external
+        port: 11080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+  - name: strapi
+    replicas: 2
+    labels:
+      app: strapi
+      group: gitplechat
+    imagePullSecrets: gitplechat
+    container:
+      name: strapi
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/strapi:latest
+      ports:
+        name: http-internal
+        port: 17080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+  - name: web
+    replicas: 2
+    labels:
+      app: web
+      group: gitplechat
+    imagePullSecrets: gitplechat
+    container:
+      name: web
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/web:latest
+      ports:
+        name: http-external
+        port: 12080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+services:
+  - name: app-external
+    annotations:
+      healthcheckPath: /api/health-check
+    type: NodePort
+    selector:
+      app: app
+      group: gitplechat
+    ports:
+      name: app-http-external-port
+      port: 12080
+      targetPort: 12080
+      nodePort: 32080
+
+  - name: app
+    annotations:
+      healthcheckPath: /api/health-check
+    type: ClusterIP
+    selector:
+      app: app
+      group: gitplechat
+    ports:
+      name: app-http-internal-port
+      port: 12180
+      targetPort: 12180
+
+  - name: bot
+    annotations:
+      healthcheckPath: /api/health-check
+    type: ClusterIP
+    selector:
+      app: bot
+      group: gitplechat
+    ports:
+      name: bot-http-internal-port
+      port: 14080
+      targetPort: 14080
+
+  - name: kms
+    annotations:
+      healthcheckPath: /api/health-check
+    type: ClusterIP
+    selector:
+      app: kms
+      group: gitplechat
+    ports:
+      name: kms-http-internal-port
+      port: 20080
+      targetPort: 20080
+
+  - name: mogi-external
+    annotations:
+      healthcheckPath: /api/health-check
+    type: NodePort
+    selector:
+      app: mogi
+      group: gitplechat
+    ports:
+      name: mogi-ws-external-port
+      port: 11080
+      targetPort: 11080
+      nodePort: 31080
+
+  - name: mogi
+    annotations:
+      healthcheckPath: /api/health-check
+    type: ClusterIP
+    selector:
+      app: mogi
+      group: gitplechat
+    ports:
+      name: mogi-mqtt-internal-port
+      port: 11883
+      targetPort: 11883
+
+  - name: omni-external
+    annotations:
+      healthcheckPath: /api/health-check
+    type: NodePort
+    selector:
+      app: omni
+      group: gitplechat
+    ports:
+      name: omni-http-external-port
+      port: 16080
+      targetPort: 16080
+      nodePort: 36080
+
+  - name: omni
+    annotations:
+      healthcheckPath: /api/health-check
+    type: ClusterIP
+    selector:
+      app: omni
+      group: gitplechat
+    ports:
+      name: omni-http-internal-port
+      port: 16080
+      targetPort: 16080
+
+  - name: rule
+    annotations:
+      healthcheckPath: /api/health-check
+    type: ClusterIP
+    selector:
+      app: rule
+      group: gitplechat
+    ports:
+      name: rule-http-internal-port
+      port: 13080
+      targetPort: 13080
+
+  - name: strapi-external
+    annotations:
+      healthcheckPath: /
+    type: NodePort
+    selector:
+      app: strapi
+      group: gitplechat
+    ports:
+      name: strapi-http-external-port
+      port: 17080
+      targetPort: 17080
+      nodePort: 37080
+
+  - name: web-external
+    annotations:
+      healthcheckPath: /api/health-check
+    type: NodePort
+    selector:
+      app: web
+      group: gitplechat
+    ports:
+      name: web-http-external-port
+      port: 12080
+      targetPort: 12080
+      nodePort: 32080
+
+statefulsets:
+  - name: bot
+    replicas: 2
+    labels:
+      app: bot
+      group: gitplechat
+    serviceName: bot
+    imagePullSecrets: gitplechat
+    container:
+      name: bot
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/bot:latest
+      ports:
+        name: http-internal
+        port: 14080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+  - name: omni
+    replicas: 2
+    labels:
+      app: omni
+      group: gitplechat
+    serviceName: omni
+    imagePullSecrets: gitplechat
+    container:
+      name: omni
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/omni:latest
+      ports:
+        name: http-external
+        port: 16080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+  - name: rule
+    replicas: 2
+    labels:
+      app: rule
+      group: gitplechat
+    serviceName: rule
+    imagePullSecrets: gitplechat
+    container:
+      name: rule
+      image: aaxvfdrn.private-ncr.gov-ntruss.com/rule:latest
+      ports:
+        name: http-internal
+        port: 13080
+    env:
+      gpInfra: kubernetes
+      gpType: gov
+      gpWorld: prd
+      cluster: public
+      mqttWsPort: "11080"
+      mqttPort: "11883"
+      appPort: "12080"
+      appInternalPort: "12180"
+      rulePort: "13080"
+      botPort: "14080"
+      omniPort: "16080"
+      strapiPort: "17080"
+      mailPort: "19080"
+      callPort: "18080"
+      kmsPort: "20080"
+      ktsmsPort: "21080"
+      searchPort: "22080"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

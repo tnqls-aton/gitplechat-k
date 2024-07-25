@@ -1,0 +1,51 @@
+{{- range $index, $ingress := .Values.ingresses }}
+{{- if $ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: {{ $.Values.namespace }}
+  name: {{ $ingress.name }}
+  labels:
+    app: {{ $ingress.labels.app }}
+    group: {{ $ingress.labels.group }}
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-size: "{{ $ingress.annotations.loadBalancerSize }}"
+    alb.ingress.kubernetes.io/network-type: "{{ $ingress.annotations.networkType }}"
+    alb.ingress.kubernetes.io/listen-ports: '{{ $ingress.annotations.listenPorts }}'
+    alb.ingress.kubernetes.io/ssl-redirect: '{{ $ingress.annotations.sslRedirect }}'
+    alb.ingress.kubernetes.io/ssl-min-version: "{{ $ingress.annotations.sslMinVersion }}"
+    alb.ingress.kubernetes.io/ssl-certificate-no: "{{ $ingress.annotations.sslCertificateNo }}"
+    alb.ingress.kubernetes.io/cipher-suite-list: '{{ $ingress.annotations.cipherSuiteList }}'
+    {{- range $key, $value := $ingress.annotations.actions }}
+    alb.ingress.kubernetes.io/actions.{{ $key }}: '{{ $value | quote }}'
+    {{- end }}
+spec:
+  ingressClassName: alb
+  {{- if $ingress.defaultBackend }}
+  defaultBackend:
+    service:
+      name: {{ $ingress.defaultBackend.service.name }}
+      port:
+        number: {{ $ingress.defaultBackend.service.port.number }}
+  {{- end }}
+  rules:
+  {{- range $rule := $ingress.rules }}
+    - host: "{{ $rule.host }}"
+      http:
+        paths:
+        {{- range $path := $rule.http.paths }}
+          - path: {{ $path.path }}
+            pathType: {{ $path.pathType }}
+            backend:
+              service:
+                name: {{ $path.backend.service.name }}
+                port:
+                  {{- if $path.backend.service.port.number }}
+                  number: {{ $path.backend.service.port.number }}
+                  {{- else }}
+                  name: {{ $path.backend.service.port.name }}
+                  {{- end }}
+        {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
